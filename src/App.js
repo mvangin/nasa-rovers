@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Gallery from './Gallery/Gallery';
 import Container from '@mui/material/Container';
+import Gallery from './Gallery/Gallery';
+import React from 'react';
 
 function App() {
 	return (
