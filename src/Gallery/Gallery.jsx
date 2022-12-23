@@ -74,15 +74,9 @@ function Gallery() {
 	};
 
 	return (
-		<div>
-			<Box
-				display="flex"
-				justifyContent="space-around"
-				alignItems="center"
-				marginTop="1rem"
-				marginBottom="1rem"
-				sx={{ flexDirection: { xs: 'column', md: 'row' } }}
-			>
+		<Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+			<Box display="flex" flexDirection="column" margin="1rem">
+				<h1> Filters </h1>
 				<div>
 					<div>
 						<ToggleButtonGroup
@@ -90,11 +84,11 @@ function Gallery() {
 							value={dateObject.dateType}
 							exclusive
 							onChange={handleToggleChange}
-							aria-label="Platform"
-							sx={{ marginBottom: '.5rem' }}
+							aria-label="date type"
+							sx={{ margin: '8px' }}
 						>
-							<ToggleButton value="sol">Martian Sol</ToggleButton>
 							<ToggleButton value="earth_date">Date</ToggleButton>
+							<ToggleButton value="sol">Martian Sol</ToggleButton>
 						</ToggleButtonGroup>
 					</div>
 
@@ -106,6 +100,7 @@ function Gallery() {
 							type="date"
 							value={dateObject.dateString}
 							onChange={handleDateChange}
+							sx={{margin: "8px"}}
 						/>
 					)}
 
@@ -116,11 +111,12 @@ function Gallery() {
 							id="standard-basic"
 							label="Enter sol day"
 							variant="standard"
+							sx={{margin: "8px"}}
 						/>
 					)}
 				</div>
 
-				<FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+				<FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
 					<InputLabel id="rover-label">Select Rover</InputLabel>
 					<Select
 						labelId="rover-label"
@@ -135,50 +131,44 @@ function Gallery() {
 					</Select>
 				</FormControl>
 
-				<Box>
-					<FormControl
-						variant="standard"
-						sx={{ m: 1, minWidth: 250 }}
+				<FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
+					<InputLabel id="rover-camera-label">
+						Select Rover Cameras
+					</InputLabel>
+					<Select
+						labelId="rover-camera-label"
+						value={cameraName}
+						onChange={(event) => {
+							setCameraName(event.target.value);
+						}}
 					>
-						<InputLabel id="rover-camera-label">
-							Select Rover Cameras
-						</InputLabel>
-						<Select
-							labelId="rover-camera-label"
-							value={cameraName}
-							onChange={(event) => {
-								setCameraName(event.target.value);
-							}}
-						>
-							<MenuItem value={'all'}> All Cameras </MenuItem>
-							{cameraList.map((option) => (
-								<MenuItem
-									key={option.value}
-									value={option.value}
-								>
-									{option.label}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-				</Box>
+						<MenuItem value={'all'}> All Cameras </MenuItem>
+						{cameraList.map((option) => (
+							<MenuItem key={option.value} value={option.value}>
+								{option.label}
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
 			</Box>
 
-			{isFetchingData ? (
-				<Box display="flex" justifyContent="center" mt={5}>
-					<CircularProgress />
-				</Box>
-			) : (
-				<div>
-					<RoverImageGrid photoList={photoList} />
-					<PaginationWrapper
-						setPage={setPage}
-						page={page}
-						totalItems={totalItems}
-					/>
-				</div>
-			)}
-		</div>
+			<Box>
+				{isFetchingData ? (
+					<Box display="flex" justifyContent="center" mt={5}>
+						<CircularProgress />
+					</Box>
+				) : (
+					<div>
+						<RoverImageGrid photoList={photoList} />
+						<PaginationWrapper
+							setPage={setPage}
+							page={page}
+							totalItems={totalItems}
+						/>
+					</div>
+				)}
+			</Box>
+		</Box>
 	);
 }
 
