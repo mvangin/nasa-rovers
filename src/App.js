@@ -4,7 +4,7 @@ import React from 'react';
 
 function App() {
 	return (
-		<Container maxWidth="md" >
+		<Container maxWidth="lg" >
 			<Gallery />
 		</Container>
 	);
