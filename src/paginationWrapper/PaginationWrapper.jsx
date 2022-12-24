@@ -2,13 +2,16 @@ import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import React from 'react';
 
-function PaginationWrapper({ setPage, page, totalItems}) {
-
-	const numberOfPages = Math.ceil(totalItems / 25)
-
+function PaginationWrapper({ setPage, page, totalItems }) {
 	function handlePageChange(event, value) {
 		setPage(value);
 	}
+
+	if (!totalItems) {
+		return null;
+	}
+
+	const numberOfPages = Math.ceil(totalItems / 25);
 
 	return (
 		<Box display="flex" justifyContent="center">
