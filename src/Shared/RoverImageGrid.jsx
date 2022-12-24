@@ -27,7 +27,7 @@ function RoverImageGrid({ photoList }) {
 						return (
 							<ImageListItem key={photo.id}>
 								<img
-									alt="rover camera shot"
+									alt={`rover camera shot ${photo.id}`}
 									width={'100%'}
 									src={photo.img_src}
 									loading="lazy"
