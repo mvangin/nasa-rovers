@@ -20,7 +20,7 @@ export async function getPhotosByRover(rover, date, camera = 'all', page = 1) {
 }
 
 export async function getTotalPicturesByRover(rover, date) {
-	let baseUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos`;
+	const baseUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos`;
 
 	const dateString =
 		date.dateType === 'earth_date' ? date.earthDate : date.solDate;

@@ -36,7 +36,7 @@ function Bookmarks({
 	}
 
 	function getBookmarkedSearches() {
-		let bookmarks =
+		const bookmarks =
 			JSON.parse(localStorage.getItem('rover_image_bookmarks')) || [];
 		setBookmarkList(bookmarks);
 		setShowBookmarks((prev) => !prev);
