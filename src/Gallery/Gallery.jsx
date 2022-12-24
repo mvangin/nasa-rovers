@@ -10,13 +10,13 @@ import {
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import PaginationWrapper from '../paginationWrapper/PaginationWrapper';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import RoverImageGrid from '../Shared/RoverImageGrid';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { debounce } from 'lodash';
+import Button from '@mui/material/Button';
 
 function Gallery() {
 	const [photoList, setPhotoList] = useState([]);
@@ -34,32 +34,31 @@ function Gallery() {
 		solDate: 0,
 	});
 
-	async function getAndSetPhotosByRover(rover, date, cameraName, page) {
+	const getAndSetPhotosByRover = useCallback(async () => {
 		setIsFetchingData(true);
 		setError(false);
 		try {
 			const photos = await getPhotosByRover(
 				rover,
-				date,
+				dateObject,
 				cameraName,
 				page
 			);
-			const totalPhotos = await getTotalPicturesByRover(rover, date);
+			const totalPhotos = await getTotalPicturesByRover(
+				rover,
+				dateObject
+			);
 			setPhotoList(photos);
 			setTotalItems(totalPhotos);
 		} catch (error) {
 			setError(true);
 		}
 		setIsFetchingData(false);
-	}
+	}, [cameraName, dateObject, page, rover]);
 
 	useEffect(() => {
-		if (!rover || !dateObject || !page) {
-			return;
-		}
-
-		getAndSetPhotosByRover(rover, dateObject, cameraName, page);
-	}, [page, dateObject, rover, cameraName]);
+		getAndSetPhotosByRover();
+	}, [getAndSetPhotosByRover]);
 
 	function handleSelectRover(event) {
 		setRover(event.target.value);
@@ -77,8 +76,10 @@ function Gallery() {
 		}));
 	};
 
-	console.log(dateObject.earthDate);
-	
+	function handleSearch() {
+		getAndSetPhotosByRover(rover, dateObject, cameraName, page);
+	}
+
 	function renderGallery() {
 		if (error) {
 			return (
@@ -192,6 +193,10 @@ function Gallery() {
 						))}
 					</Select>
 				</FormControl>
+
+				<Button variant="contained" onClick={handleSearch}>
+					Search
+				</Button>
 			</Box>
 
 			<Box>{renderGallery()}</Box>
