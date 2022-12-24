@@ -26,7 +26,7 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test('check if filter items display', () => {
+test('filter items should display', () => {
 	render(<Gallery />);
 	const earthDate = screen.getByLabelText('Enter date');
 	const selectRover = screen.getByLabelText('Select Rover');
@@ -69,7 +69,7 @@ test('earth date input should replace martian sol when earth toggle is clicked',
 	expect(solDay).not.toBeInTheDocument();
 });
 
-test('should fetch and display asynchronous rover images', async () => {
+test('should fetch and display rover images', async () => {
 	render(<Gallery />);
 	const image = await screen.findByAltText('rover camera shot 530826');
 
