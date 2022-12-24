@@ -6,7 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 
-export default function FormDialog({ onSave, open, setOpen }) {
+function BookmarkPopup({ onSave, open, setOpen }) {
 	const [bookmarkTitle, setBookmarkTitle] = useState('');
 
 	function handleClose() {
@@ -21,7 +21,7 @@ export default function FormDialog({ onSave, open, setOpen }) {
 	return (
 		<div>
 			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle> Save Bookmark </DialogTitle>
+				<DialogTitle> Add Bookmark </DialogTitle>
 				<DialogContent>
 					<TextField
 						value={bookmarkTitle}
@@ -44,3 +44,5 @@ export default function FormDialog({ onSave, open, setOpen }) {
 		</div>
 	);
 }
+
+export default BookmarkPopup;

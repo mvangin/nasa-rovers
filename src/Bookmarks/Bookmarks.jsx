@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import FormDialog from '../Dialogue/Dialogue';
+import BookmarkPopup from '../BookmarkPopup/BookmarkPopup';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import React, { useState } from 'react';
@@ -47,17 +47,22 @@ function Bookmarks({
 			bookmark.rover,
 			bookmark.dateObject,
 			bookmark.cameraName,
-			'1'
+			1
 		);
 		getAndSetPhotosByRover(
 			bookmark.rover,
 			bookmark.dateObject,
 			bookmark.cameraName,
-			'1'
+			1
 		);
+		setShowBookmarks(false);
 	}
 
 	function renderSavedBookmarks() {
+		if (!bookmarkList.length) {
+			return <ListItem component="div">No Bookmarks found</ListItem>;
+		}
+
 		return bookmarkList.map((bookmark, index) => (
 			<ListItem key={index} component="div">
 				<ListItemButton onClick={() => setSearchToBookmark(bookmark)}>
@@ -74,7 +79,7 @@ function Bookmarks({
 				variant="outlined"
 				onClick={handleSaveBookmark}
 			>
-				Bookmark Search
+				Add Bookmark
 			</Button>
 			<Button
 				sx={{ marginTop: '1rem' }}
@@ -90,7 +95,7 @@ function Bookmarks({
 			>
 				{showBookmarks && renderSavedBookmarks()}
 			</Box>
-			<FormDialog
+			<BookmarkPopup
 				open={showBookmarkDialogue}
 				setOpen={setShowBookmarkDialogue}
 				onSave={saveBookmarkToStorage}

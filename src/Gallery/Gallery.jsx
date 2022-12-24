@@ -54,13 +54,6 @@ function Gallery() {
 		[]
 	);
 
-	function setFilterStates(rover, dateObject, cameraName, page) {
-		setRover(rover);
-		setDateObject(dateObject);
-		setCameraName(cameraName);
-		setPage(page);
-	}
-
 	useEffect(() => {
 		const initialDateObject = {
 			dateType: 'earth_date',
@@ -74,6 +67,13 @@ function Gallery() {
 
 		getAndSetRoverPhotos('curiosity', initialDateObject, 'all', 1);
 	}, [getAndSetRoverPhotos]);
+
+	function setFilterStates(rover, dateObject, cameraName, page) {
+		setRover(rover);
+		setDateObject(dateObject);
+		setCameraName(cameraName);
+		setPage(page);
+	}
 
 	function handleSelectRover(event) {
 		setRover(event.target.value);
@@ -99,7 +99,7 @@ function Gallery() {
 		getAndSetRoverPhotos(rover, dateObject, cameraName, pageNumber);
 	}
 
-	function renderGallery() {
+	function renderImageGrid() {
 		if (error) {
 			return (
 				<Box display="flex" justifyContent="center" mt={5}>
@@ -260,7 +260,7 @@ function Gallery() {
 					/>
 				</Box>
 
-				<Box>{renderGallery()}</Box>
+				<Box>{renderImageGrid()}</Box>
 			</Box>
 		</>
 	);
