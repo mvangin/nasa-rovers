@@ -16,22 +16,27 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { debounce } from 'lodash';
 
 function Gallery() {
 	const [photoList, setPhotoList] = useState([]);
 	const [rover, setRover] = useState('curiosity');
-	const [dateObject, setDateObject] = useState({
-		dateType: 'earth_date',
-		dateString: formatDate(new Date()),
-	});
 	const [isFetchingData, setIsFetchingData] = useState(true);
 	const [page, setPage] = useState(1);
 	const [totalItems, setTotalItems] = useState(1);
 	const [cameraList, setCameraList] = useState(cameraMapping);
 	const [cameraName, setCameraName] = useState('all');
+	const [error, setError] = useState(false);
+
+	const [dateObject, setDateObject] = useState({
+		dateType: 'earth_date',
+		earthDate: formatDate(new Date()),
+		solDate: 0,
+	});
 
 	async function getAndSetPhotosByRover(rover, date, cameraName, page) {
 		setIsFetchingData(true);
+		setError(false);
 		try {
 			const photos = await getPhotosByRover(
 				rover,
@@ -43,7 +48,7 @@ function Gallery() {
 			setPhotoList(photos);
 			setTotalItems(totalPhotos);
 		} catch (error) {
-			console.log(error);
+			setError(true);
 		}
 		setIsFetchingData(false);
 	}
@@ -56,22 +61,49 @@ function Gallery() {
 		getAndSetPhotosByRover(rover, dateObject, cameraName, page);
 	}, [page, dateObject, rover, cameraName]);
 
-	function handleSelectRover(e) {
-		setRover(e.target.value);
+	function handleSelectRover(event) {
+		setRover(event.target.value);
 		setPage(1);
 	}
 
-	function handleDateChange(event) {
-		setDateObject((prev) => ({ ...prev, dateString: event.target.value }));
+	function handleDateChange(event, dateType) {
+		setDateObject((prev) => ({ ...prev, [dateType]: event.target.value }));
 	}
 
 	const handleToggleChange = (event) => {
-		setDateObject({
-			dateString:
-				event.target.value === 'sol' ? 0 : formatDate(new Date()),
+		setDateObject((prev) => ({
+			...prev,
 			dateType: event.target.value,
-		});
+		}));
 	};
+
+	console.log(dateObject.earthDate);
+	
+	function renderGallery() {
+		if (error) {
+			return (
+				<Box display="flex" justifyContent="center" mt={5}>
+					An error occurred. Please update your search parameters and
+					try again.
+				</Box>
+			);
+		}
+
+		return isFetchingData ? (
+			<Box display="flex" justifyContent="center" mt={5}>
+				<CircularProgress />
+			</Box>
+		) : (
+			<div>
+				<RoverImageGrid photoList={photoList} />
+				<PaginationWrapper
+					setPage={setPage}
+					page={page}
+					totalItems={totalItems}
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
@@ -94,24 +126,34 @@ function Gallery() {
 
 					{dateObject.dateType === 'earth_date' && (
 						<TextField
-							id="outlined-basic"
+							id="earth-date-field"
 							label="Enter date"
 							variant="outlined"
 							type="date"
-							value={dateObject.dateString}
-							onChange={handleDateChange}
-							sx={{margin: "8px"}}
+							value={dateObject.earthDate}
+							onChange={(event) =>
+								handleDateChange(event, 'earthDate')
+							}
+							sx={{ margin: '8px' }}
 						/>
 					)}
 
 					{dateObject.dateType === 'sol' && (
 						<TextField
-							value={dateObject.dateString}
-							onChange={handleDateChange}
-							id="standard-basic"
+							inputProps={{
+								inputMode: 'numeric',
+								pattern: '[0-9]*',
+								min: '0',
+							}}
+							type="number"
+							value={dateObject.solDate}
+							onChange={(event) =>
+								handleDateChange(event, 'solDate')
+							}
+							id="sol-input-field"
 							label="Enter sol day"
 							variant="standard"
-							sx={{margin: "8px"}}
+							sx={{ margin: '8px' }}
 						/>
 					)}
 				</div>
@@ -152,22 +194,7 @@ function Gallery() {
 				</FormControl>
 			</Box>
 
-			<Box>
-				{isFetchingData ? (
-					<Box display="flex" justifyContent="center" mt={5}>
-						<CircularProgress />
-					</Box>
-				) : (
-					<div>
-						<RoverImageGrid photoList={photoList} />
-						<PaginationWrapper
-							setPage={setPage}
-							page={page}
-							totalItems={totalItems}
-						/>
-					</div>
-				)}
-			</Box>
+			<Box>{renderGallery()}</Box>
 		</Box>
 	);
 }

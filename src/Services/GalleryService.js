@@ -1,9 +1,4 @@
-export async function getPhotosByRover(
-	rover,
-	date,
-	camera = 'all',
-	page = 1
-) {
+export async function getPhotosByRover(rover, date, camera = 'all', page = 1) {
 	let baseUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos`;
 
 	let apiKeyString = `api_key=${
@@ -12,7 +7,10 @@ export async function getPhotosByRover(
 
 	let cameraFilter = camera === 'all' ? '' : `&camera=${camera}`;
 
-	let query = `${date.dateType}=${date.dateString}&page=${page}${cameraFilter}`;
+	const dateString =
+		date.dateType === 'earth_date' ? date.earthDate : date.solDate;
+
+	let query = `${date.dateType}=${dateString}&page=${page}${cameraFilter}`;
 
 	let photoData = await fetch(`${baseUrl}?${query}&${apiKeyString}`);
 
@@ -28,7 +26,10 @@ export async function getTotalPicturesByRover(rover, date) {
 		process.env.REACT_APP_NASA_API_KEY ?? 'DEMO_KEY'
 	}`;
 
-	let query = `${date.dateType}=${date.dateString}`;
+	const dateString =
+		date.dateType === 'earth_date' ? date.earthDate : date.solDate;
+
+	let query = `${date.dateType}=${dateString}`;
 
 	let totalPictures = await fetch(`${baseUrl}?${query}&${apiKeyString}`);
 
