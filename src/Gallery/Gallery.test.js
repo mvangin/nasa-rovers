@@ -1,8 +1,8 @@
-import { findByText, render, screen, waitFor } from '@testing-library/react';
-import Gallery from './Gallery';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import Gallery from './Gallery';
+import userEvent from '@testing-library/user-event';
 
 const server = setupServer(
 	rest.get(
@@ -69,9 +69,8 @@ test('earth date input should replace martian sol when earth toggle is clicked',
 	expect(solDay).not.toBeInTheDocument();
 });
 
-test('should fetch and display asynchronous posts: using findBy', async () => {
+test('should fetch and display asynchronous rover images', async () => {
 	render(<Gallery />);
-	// screen.debug(); //text initially not present
 	const image = await screen.findByAltText('rover camera shot 530826');
 
 	expect(image).toHaveAttribute(
