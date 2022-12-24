@@ -2,9 +2,10 @@ import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import React from 'react';
 
-function PaginationWrapper({ setPage, page, totalItems }) {
+function PaginationWrapper({ setPage, page, totalItems, updatePageNumber }) {
 	function handlePageChange(event, value) {
 		setPage(value);
+		updatePageNumber(value);
 	}
 
 	if (!totalItems) {

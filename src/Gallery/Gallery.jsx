@@ -71,14 +71,12 @@ function Gallery() {
 		setRover('curiosity');
 		setDateObject(initialDateObject);
 		setCameraName('all');
-		setPage(1);
 
 		getAndSetRoverPhotos('curiosity', initialDateObject, 'all', 1);
 	}, [getAndSetRoverPhotos]);
 
 	function handleSelectRover(event) {
 		setRover(event.target.value);
-		setPage(1);
 	}
 
 	function handleDateChange(event, dateType) {
@@ -93,7 +91,12 @@ function Gallery() {
 	};
 
 	function handleSearch() {
-		getAndSetRoverPhotos(rover, dateObject, cameraName, page);
+		getAndSetRoverPhotos(rover, dateObject, cameraName, 1);
+		setPage(1);
+	}
+
+	function updatePageNumber(pageNumber) {
+		getAndSetRoverPhotos(rover, dateObject, cameraName, pageNumber);
 	}
 
 	function renderGallery() {
@@ -114,6 +117,7 @@ function Gallery() {
 			<div>
 				<RoverImageGrid photoList={photoList} />
 				<PaginationWrapper
+					updatePageNumber={updatePageNumber}
 					setPage={setPage}
 					page={page}
 					totalItems={totalItems}
