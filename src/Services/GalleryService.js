@@ -19,13 +19,15 @@ export async function getPhotosByRover(rover, date, camera = 'all', page = 1) {
 	return photoData?.photos;
 }
 
-export async function getTotalPicturesByRover(rover, date) {
+export async function getTotalPicturesByRover(rover, date, camera = 'all') {
 	const baseUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos`;
 
 	const dateString =
 		date.dateType === 'earth_date' ? date.earthDate : date.solDate;
 
-	const query = `${date.dateType}=${dateString}`;
+	const cameraFilter = camera === 'all' ? '' : `&camera=${camera}`;
+
+	const query = `${date.dateType}=${dateString}${cameraFilter}`;
 
 	let totalPictures = await fetch(`${baseUrl}?${query}&${apiKeyString}`);
 

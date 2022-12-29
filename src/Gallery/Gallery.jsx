@@ -42,7 +42,8 @@ function Gallery() {
 				);
 				const totalPhotos = await getTotalPicturesByRover(
 					rover,
-					dateObject
+					dateObject,
+					cameraName
 				);
 				setPhotoList(photos);
 				setTotalItems(totalPhotos);
