@@ -1,10 +1,12 @@
 # Getting Started with the NASA Mars Rover Photo Gallery web app
 
 In the project directory, you can run:
+### `npm install`
+Installs the necessary dependencies needed for the web app to run
 ### `npm start`
-This command will start the the web app on your localhost
+Starts the the web app on your localhost
 ### `npm test`
-This command will run a suite of automated tests
+Runs a suite of automated tests
 ## Key Features
 
 * Single Page Application built using React connects to the NASA API to
