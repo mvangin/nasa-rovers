@@ -9,7 +9,7 @@ function Bookmarks({
 	rover,
 	dateObject,
 	cameraName,
-	getAndSetPhotosByRover,
+	getAndSetRoverPhotos,
 	setFilterStates,
 }) {
 	const [showBookmarkDialogue, setShowBookmarkDialogue] = useState(false);
@@ -49,7 +49,7 @@ function Bookmarks({
 			bookmark.cameraName,
 			1
 		);
-		getAndSetPhotosByRover(
+		getAndSetRoverPhotos(
 			bookmark.rover,
 			bookmark.dateObject,
 			bookmark.cameraName,
