@@ -24,7 +24,7 @@ function Gallery() {
 	const [rover, setRover] = useState('');
 	const [isFetchingData, setIsFetchingData] = useState(true);
 	const [page, setPage] = useState(1);
-	const [totalItems, setTotalItems] = useState(1);
+	const [totalPhotos, setTotalPhotos] = useState(1);
 	const [cameraName, setCameraName] = useState('');
 	const [error, setError] = useState(false);
 	const [dateObject, setDateObject] = useState({});
@@ -46,7 +46,7 @@ function Gallery() {
 					cameraName
 				);
 				setPhotoList(photos);
-				setTotalItems(totalPhotos);
+				setTotalPhotos(totalPhotos);
 			} catch (error) {
 				setError(true);
 			}
@@ -121,7 +121,7 @@ function Gallery() {
 					updatePageNumber={updatePageNumber}
 					setPage={setPage}
 					page={page}
-					totalItems={totalItems}
+					totalItems={totalPhotos}
 				/>
 			</div>
 		);

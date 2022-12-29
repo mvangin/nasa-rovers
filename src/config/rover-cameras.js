@@ -1,5 +1,5 @@
 export const cameraMapping = [
-	{ value : "FHAZ", label : ' Front Hazard Avoidance Camera' },
+	{ value : "FHAZ", label : 'Front Hazard Avoidance Camera' },
 	{ value : "RHAZ", label : 'Rear Hazard Avoidance Camera' },
 	{ value : "MAST", label : 'Mast Camera' },
 	{ value : "CHEMCAM", label : 'Chemistry and Camera Complex' },
