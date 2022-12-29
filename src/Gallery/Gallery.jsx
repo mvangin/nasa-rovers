@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import PaginationWrapper from '../paginationWrapper/PaginationWrapper';
+import PaginationWrapper from '../PaginationWrapper/PaginationWrapper';
 import React, { useEffect, useState, useCallback } from 'react';
 import RoverImageGrid from '../Shared/RoverImageGrid';
 import Select from '@mui/material/Select';
@@ -256,7 +256,7 @@ function Gallery() {
 						rover={rover}
 						dateObject={dateObject}
 						cameraName={cameraName}
-						getAndSetPhotosByRover={getAndSetRoverPhotos}
+						getAndSetRoverPhotos={getAndSetRoverPhotos}
 						setFilterStates={setFilterStates}
 					/>
 				</Box>
